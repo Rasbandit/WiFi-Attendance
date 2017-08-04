@@ -1,0 +1,11 @@
+{
+  "name": "",
+  "version": "",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "getmac": "^1.2.1",
+    "node-sshclient": "^0.2.0",
+    "ssh2": "^0.5.5"
+  }
+}
