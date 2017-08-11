@@ -4,29 +4,28 @@ const express = require('express'),
 let MacAdresses = [];
 let conn = new Client();
 
-conn.on('ready', () => {
+conn.on('ready', function() {
   console.log('Client :: ready');
-  conn.exec('show clients', function(err, stream) {
+  conn.exec('show clients', { pty: true }, function(err, stream) {
     if (err) throw err;
-    stream.on('close', function() {
-      console.log('Stream :: close');
-      console.log(MacAdresses.toString('utf8'));
+    stream.on('close', function(code, signal) {
+      stream.end('ls -l\nexit\n');
+      console.log('Stream :: close :: code: ' + code + ', signal: ' + signal);
       conn.end();
     }).on('data', function(data) {
-      console.log('asfasfsaf', data)
-      MacAdresses.push(data);
+      console.log
       console.log('STDOUT: ' + data);
     }).stderr.on('data', function(data) {
       console.log('STDERR: ' + data);
     });
-
   });
+  
 }).connect({
-  host: '*******',
+  host: '192.168.0.24',
   port: 22,
-  username: '*****',
-  password: '*****',
-  debug: console.log,
+  username: '****',
+  password: '****',
+  // debug: console.log,
   algorithms: {
     cipher : [
       'aes128-ctr','aes192-ctr','aes256-ctr','arcfour256','arcfour128',
